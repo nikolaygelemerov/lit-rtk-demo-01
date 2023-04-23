@@ -1,24 +1,12 @@
-import {
-  AnyAction,
-  CombinedState,
-  combineReducers,
-  configureStore,
-  Reducer
-} from '@reduxjs/toolkit';
+import { AnyAction, combineReducers, configureStore, Reducer } from '@reduxjs/toolkit';
 
-import { CounterState, EventsState } from '@types';
+import { RootState } from '@types';
 
-import { counterSlice } from './counterReducer';
-import { eventSlice } from './eventsReducer';
-import { api } from './query';
-
-export interface RootState {
-  ongoings: CombinedState<{ counter: CounterState; events: EventsState }>;
-  [api.reducerPath]: ReturnType<typeof api.reducer>;
-}
+import { api } from './api';
+import { counterSlice } from './slices/counter';
 
 const rootReducer: Reducer<RootState, AnyAction> = combineReducers({
-  ongoings: combineReducers({ counter: counterSlice.reducer, events: eventSlice.reducer }),
+  counter: counterSlice.reducer,
   [api.reducerPath]: api.reducer
 });
 

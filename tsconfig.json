@@ -18,6 +18,8 @@
       "@components/*": ["./components/*"],
       "@constants": ["./constants"],
       "@constants/*": ["./constants/*"],
+      "@store": ["./store"],
+      "@store/*": ["./store/*"],
       "@types": ["./types"],
       "@types/*": ["./types/*"]
     },

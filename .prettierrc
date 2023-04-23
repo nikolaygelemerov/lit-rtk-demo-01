@@ -1,18 +1,15 @@
 {
   "endOfLine": "auto",
-  "importOrder": [],
+  "importOrder": [
+    "^@lit(.*)$",
+    "^@components(.*)|@components/(.*)|^@constants(.*)|@constants/(.*)|@root(.*)|@root/(.*)|@store(.*)|@store/(.*)|@types(.*)|@types/(.*)$",
+    "^[./].*(?<!\\.scss)$",
+    "\\.scss$"
+  ],
   "importOrderCaseInsensitive": true,
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
   "importOrderParserPlugins": ["typescript", "decorators-legacy"],
-  "overrides": [
-    {
-      "files": "*.scss",
-      "options": {
-        "singleQuote": false
-      }
-    }
-  ],
   "printWidth": 100,
   "singleQuote": true,
   "trailingComma": "none"

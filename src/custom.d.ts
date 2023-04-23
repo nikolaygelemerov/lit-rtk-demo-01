@@ -2,7 +2,8 @@
 declare namespace JSX {
   interface HTMLElements {
     'api-component': any;
-    'input-component': any;
-    'word-component': any;
+    'counter-component': any;
+    'posts-component': any;
+    'update-counter-component': any;
   }
 }

@@ -40,6 +40,7 @@
     "max-len": ["warn", { "code": 100 }],
     "sort-destructure-keys/sort-destructure-keys": [2, { "caseSensitive": false }],
     "sort-keys-fix/sort-keys-fix": ["error", "asc", { "caseSensitive": false, "natural": false }],
+    "@typescript-eslint/no-shadow": "off",
     "unused-imports/no-unused-imports": "error"
   }
 }

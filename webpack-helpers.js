@@ -5,6 +5,7 @@ const path = require('path');
 const alias = {
   '@components': path.resolve(__dirname, 'src', 'components'),
   '@constants': path.resolve(__dirname, 'src', 'constants'),
+  '@store': path.resolve(__dirname, 'src', 'store'),
   '@types': path.resolve(__dirname, 'src', 'types')
 };
 
