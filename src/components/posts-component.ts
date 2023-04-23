@@ -16,9 +16,14 @@ class PostsComponent extends connect(store)(LitElement) {
   };
 
   static styles = css`
-    :host {
-      all: initial;
-      color: red;
+    .posts {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(20rem, 1fr));
+      gap: var(--offset-l);
+      width: 100%;
+      padding: var(--offset-l);
+      color: var(--color-bkg-button);
+      border: var(--border-width) solid var(--border-width);
     }
   `;
 
@@ -32,7 +37,7 @@ class PostsComponent extends connect(store)(LitElement) {
 
   render() {
     return html`
-      <div>
+      <div class="posts">
         <p>${JSON.stringify(this.posts.data)}</p>
       </div>
     `;

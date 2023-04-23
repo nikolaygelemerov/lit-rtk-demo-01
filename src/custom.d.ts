@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 declare namespace JSX {
-  interface HTMLElements {
+  interface HTMLElementTagNameMap {
     'api-component': any;
     'counter-component': any;
     'posts-component': any;

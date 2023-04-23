@@ -23,7 +23,11 @@
       "@types": ["./types"],
       "@types/*": ["./types/*"]
     },
-    "plugins": [],
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin"
+      }
+    ],
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
