@@ -7,25 +7,62 @@ import { customElement, property } from 'lit/decorators.js';
 class CubbyTabs extends LitElement {
   static styles = css`
     nav {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
+
     nav > ::slotted([slot='tab']) {
-      padding: 1rem 2rem;
       flex: 1 1 auto;
+      padding: 1rem 2rem;
       color: var(--cubby-color-text-light);
-      border-bottom: 2px solid var(--cubby-color-text-light);
+      border-bottom: var(--cubby-border-width) solid var(--cubby-color-text-light);
+      font-size: var(--cubby-font-size-xl);
       text-align: center;
       cursor: pointer;
     }
+
     nav > ::slotted([slot='tab'][selected]) {
       color: var(--cubby-color-text);
-      border-color: var(--cubby-color-text);
+      border-bottom: var(--cubby-border-width-bold) solid var(--cubby-color-text);
     }
+
     ::slotted([slot='panel']) {
       display: none;
     }
+
     ::slotted([slot='panel'][selected]) {
-      display: block;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2rem;
+      padding: 1rem;
+    }
+
+    @media (max-width: 1380px) {
+      ::slotted([slot='panel'][selected]) {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (max-width: 1040px) {
+      ::slotted([slot='panel'][selected]) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 800px) {
+      ::slotted([slot='panel'][selected]) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        grid-template-columns: 1fr;
+      }
+
+      ::slotted([slot='panel'][selected]) {
+        grid-template-columns: 1fr;
+      }
     }
   `;
 

@@ -8,6 +8,7 @@ import { store } from '@store';
 import '../shared';
 import CubbyTabs from '../shared/CubbyTabs/CubbyTabs';
 import './components';
+import { dummyData } from './dummy';
 import { CubbyFacility as CubbyFacilityType, Id } from './types';
 
 // eslint-disable-next-line prettier/prettier
@@ -20,11 +21,14 @@ class CubbyFacility extends connect(store)(LitElement) {
   facility = {} as CubbyFacilityType;
 
   async firstUpdated() {
+    /*
     const referer = 'localhost';
     const bearerToken = STOREFRONT_KEY;
+    */
 
     try {
       // eslint-disable-next-line compat/compat
+      /*
       const response = await fetch('http://localhost:8080/marketing/v1/search', {
         headers: {
           Authorization: `Bearer ${bearerToken}`,
@@ -39,6 +43,8 @@ class CubbyFacility extends connect(store)(LitElement) {
       }
 
       const data = (await response.json()) as CubbyFacilityType[];
+      */
+      const data = dummyData;
       const facility = data.find((facility) => facility.facility.id === this.facilityId);
 
       if (facility) {
@@ -94,17 +100,18 @@ class CubbyFacility extends connect(store)(LitElement) {
       /* ********************************** */
       /* *********** border-radius ************ */
       /* ********************************** */
-      --border-radius: 0.25rem;
+      --cubby-border-radius: 0.25rem;
 
       /* ********************************** */
       /* *********** border-width ************ */
       /* ********************************** */
-      --border-width: 1px;
+      --cubby-border-width: 1px;
+      --cubby-border-width-bold: 2px;
 
       /* ********************************** */
       /* *********** box-shadow ************ */
       /* ********************************** */
-      --box-shadow: rgb(0 0 0 / 35%) 0 5px 10px;
+      --cubby-box-shadow: rgb(0 0 0 / 35%) 0 5px 10px;
     }
   `;
 
@@ -113,39 +120,64 @@ class CubbyFacility extends connect(store)(LitElement) {
     console.log('Tab selected:', e.detail.index);
   }
 
-  handleTabKeyDown(e: KeyboardEvent) {
+  private _focusedTabIndex = 0;
+
+  handleClick(e: MouseEvent, index: number) {
+    this._focusedTabIndex = index;
+  }
+
+  handleKeyDown(e: KeyboardEvent) {
     if (this.shadowRoot) {
       const tabElements = Array.from(this.shadowRoot.querySelectorAll('[slot=tab]'));
-      let newIndex = tabElements.findIndex((tab) => tab.getAttribute('selected') !== null);
 
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        newIndex = (newIndex + 1) % tabElements.length;
-      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        newIndex = (newIndex - 1 + tabElements.length) % tabElements.length;
-      } else if (e.key === 'Escape') {
-        newIndex = 0;
+      if (e.key === 'ArrowRight') {
+        if (this._focusedTabIndex === tabElements.length - 1) {
+          this._focusedTabIndex = 0;
+        } else {
+          this._focusedTabIndex = this._focusedTabIndex + 1;
+        }
+      } else if (e.key === 'ArrowLeft') {
+        if (this._focusedTabIndex === 0) {
+          this._focusedTabIndex = tabElements.length - 1;
+        } else {
+          this._focusedTabIndex = this._focusedTabIndex - 1;
+        }
       } else if (e.key === 'Enter') {
-        newIndex = tabElements.length - 1;
+        const cubbyTabs = this.shadowRoot.querySelector('cubby-tabs') as CubbyTabs;
+        cubbyTabs.selectTab(this._focusedTabIndex);
+
+        return;
       } else {
         return; // If none of the handled keys were pressed, do nothing
       }
 
       e.preventDefault(); // Prevent scrolling the page
-      const cubbyTabs = this.shadowRoot.querySelector('cubby-tabs') as CubbyTabs;
-      cubbyTabs.selectTab(newIndex);
+      const newFocusedTab = tabElements[this._focusedTabIndex] as HTMLElement;
+      newFocusedTab.focus();
     }
   }
 
   render() {
     return html`
       <cubby-facility-header .facility="${this.facility}"> </cubby-facility-header>
-      <cubby-tabs @tab-selected=${this.handleTabSelected}>
+      <cubby-tabs @keydown=${this.handleKeyDown} @tab-selected=${this.handleTabSelected}>
         ${repeat(
           this.facility.groups || [],
           (group) => group.name,
-          (group) => html`
-            <h2 slot="tab" @keydown=${this.handleTabKeyDown}>${group.name}</h2>
-            <section slot="panel">Content for group ${group.name}</section>
+          (group, index) => html`
+            <h2 slot="tab" @click=${(e: MouseEvent) => this.handleClick(e, index)}>
+              ${group.name}
+            </h2>
+            <section slot="panel">
+              ${repeat(
+                group.pricingGroups || [],
+                (pricingGroup) => pricingGroup.name,
+                (pricingGroup) =>
+                  html`<cubby-facility-pricing-group
+                    .pricingGroup=${pricingGroup}
+                  ></cubby-facility-pricing-group>`
+              )}
+            </section>
           `
         )}
       </cubby-tabs>
