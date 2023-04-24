@@ -1,1 +1,1 @@
-import './CubbyFacilityHeader/CubbyFacilityHeader';
+import './cubby-facility-header/cubby-facility-header';

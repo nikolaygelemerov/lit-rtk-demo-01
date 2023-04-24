@@ -1,9 +1,11 @@
 import { css, html, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { repeat } from 'lit/directives/repeat.js';
 import { connect } from 'pwa-helpers';
 
 import { store } from '@store';
 
+import '../shared';
 import './components';
 import { CubbyFacility as CubbyFacilityType, Id } from './types';
 
@@ -105,8 +107,25 @@ class CubbyFacility extends connect(store)(LitElement) {
     }
   `;
 
+  // Add a new method to handle the 'tab-selected' event
+  handleTabSelected(e: CustomEvent) {
+    console.log('Tab selected:', e.detail.index);
+  }
+
   render() {
-    return html`<cubby-facility-header .facility="${this.facility}"></cubby-facility-header>`;
+    return html`
+      <cubby-facility-header .facility="${this.facility}"> </cubby-facility-header>
+      <cubby-tabs @tab-selected=${this.handleTabSelected}>
+        ${repeat(
+          this.facility.groups || [],
+          (group) => group.name,
+          (group) => html`
+            <h2 slot="tab">${group.name}</h2>
+            <section slot="panel">Content for tab 1</section>
+          `
+        )}
+      </cubby-tabs>
+    `;
   }
 }
 

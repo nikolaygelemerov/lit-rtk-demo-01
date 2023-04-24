@@ -18,8 +18,6 @@ module.exports = (env, argv) => {
   const isDev = argv.mode === 'development';
   const envKeys = generateEnvKeys(isDev);
 
-  console.log('envKeys: ', envKeys);
-
   return {
     devServer,
     devtool: isDev ? 'eval-source-map' : 'source-map',
