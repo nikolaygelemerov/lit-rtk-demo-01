@@ -7,3 +7,10 @@ declare namespace JSX {
     'update-counter-component': any;
   }
 }
+
+declare let STOREFRONT_KEY: string;
+
+declare module '*.jpg' {
+  const url: string;
+  export default url;
+}

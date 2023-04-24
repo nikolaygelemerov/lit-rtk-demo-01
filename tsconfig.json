@@ -13,6 +13,8 @@
     "noImplicitReturns": true,
     "outDir": "./out/",
     "paths": {
+      "@assets": ["./assets"],
+      "@assets/*": ["./assets/*"],
       "@root/*": ["./*"],
       "@components": ["./components"],
       "@components/*": ["./components/*"],

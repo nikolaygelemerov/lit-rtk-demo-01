@@ -3,6 +3,7 @@ const path = require('path');
 
 // Resolves:
 const alias = {
+  '@assets': path.resolve(__dirname, 'src', 'assets'),
   '@components': path.resolve(__dirname, 'src', 'components'),
   '@constants': path.resolve(__dirname, 'src', 'constants'),
   '@store': path.resolve(__dirname, 'src', 'store'),

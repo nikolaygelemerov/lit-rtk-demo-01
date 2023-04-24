@@ -10,3 +10,5 @@ dist
 
 # logs:
 yarn-error.log
+
+.env
