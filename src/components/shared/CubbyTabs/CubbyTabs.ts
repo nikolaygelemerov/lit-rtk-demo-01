@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { css, html, LitElement } from 'lit';
+import { css, html, LitElement, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 // eslint-disable-next-line prettier/prettier
@@ -51,7 +51,7 @@ class CubbyTabs extends LitElement {
 
   selectTab(tabIndex: number) {
     this._tabs.forEach((tab) => tab.removeAttribute('selected'));
-    this._tabs[tabIndex].setAttribute('selected', '');
+    this._tabs[tabIndex]?.setAttribute('selected', '');
     this._panels.forEach((panel) => panel.removeAttribute('selected'));
     this._panels[tabIndex]?.setAttribute('selected', '');
   }
@@ -63,6 +63,25 @@ class CubbyTabs extends LitElement {
     // Emit a custom event with the selected tab index
     const event = new CustomEvent('tab-selected', { detail: { index } });
     this.dispatchEvent(event);
+  }
+
+  updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('_tabs') || changedProperties.has('_panels')) {
+      this._tabs.forEach((tab, index) => {
+        tab.setAttribute('role', 'tab');
+        tab.setAttribute('aria-controls', `panel-${index}`);
+        tab.setAttribute('id', `tab-${index}`);
+        tab.setAttribute('tabindex', index === 0 ? '0' : '-1');
+      });
+
+      this._panels.forEach((panel, index) => {
+        panel.setAttribute('role', 'tabpanel');
+        panel.setAttribute('aria-labelledby', `tab-${index}`);
+        panel.setAttribute('id', `panel-${index}`);
+      });
+
+      this.selectTab(0);
+    }
   }
 
   render() {

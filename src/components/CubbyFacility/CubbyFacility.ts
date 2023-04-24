@@ -6,6 +6,7 @@ import { connect } from 'pwa-helpers';
 import { store } from '@store';
 
 import '../shared';
+import CubbyTabs from '../shared/CubbyTabs/CubbyTabs';
 import './components';
 import { CubbyFacility as CubbyFacilityType, Id } from './types';
 
@@ -112,6 +113,29 @@ class CubbyFacility extends connect(store)(LitElement) {
     console.log('Tab selected:', e.detail.index);
   }
 
+  handleTabKeyDown(e: KeyboardEvent) {
+    if (this.shadowRoot) {
+      const tabElements = Array.from(this.shadowRoot.querySelectorAll('[slot=tab]'));
+      let newIndex = tabElements.findIndex((tab) => tab.getAttribute('selected') !== null);
+
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        newIndex = (newIndex + 1) % tabElements.length;
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        newIndex = (newIndex - 1 + tabElements.length) % tabElements.length;
+      } else if (e.key === 'Escape') {
+        newIndex = 0;
+      } else if (e.key === 'Enter') {
+        newIndex = tabElements.length - 1;
+      } else {
+        return; // If none of the handled keys were pressed, do nothing
+      }
+
+      e.preventDefault(); // Prevent scrolling the page
+      const cubbyTabs = this.shadowRoot.querySelector('cubby-tabs') as CubbyTabs;
+      cubbyTabs.selectTab(newIndex);
+    }
+  }
+
   render() {
     return html`
       <cubby-facility-header .facility="${this.facility}"> </cubby-facility-header>
@@ -120,8 +144,8 @@ class CubbyFacility extends connect(store)(LitElement) {
           this.facility.groups || [],
           (group) => group.name,
           (group) => html`
-            <h2 slot="tab">${group.name}</h2>
-            <section slot="panel">Content for tab 1</section>
+            <h2 slot="tab" @keydown=${this.handleTabKeyDown}>${group.name}</h2>
+            <section slot="panel">Content for group ${group.name}</section>
           `
         )}
       </cubby-tabs>
