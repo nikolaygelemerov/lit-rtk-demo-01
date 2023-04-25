@@ -19,11 +19,12 @@ server.use(staticMiddleware);
 server.get('/cubby-components', async (req, res) => {
   // Run the build command from the correct directory
   try {
-    const apiKey = req.query['api-key'] || '';
+    // const apiKey = req.query['api-key'] || '';
 
     // Run the build command from the correct directory and wait for it to complete
-    const stdout = await execPromise(`webpack --mode production --env STOREFRONT_KEY=${apiKey}`);
-    console.log('Build output:', stdout);
+    // const stdout = await execPromise(`webpack --mode production --env STOREFRONT_KEY=${apiKey}`);
+
+    // console.log('stdout: ', stdout);
 
     // Read the built JavaScript file and return it
     const builtFilesPath = path.resolve(__dirname, '..', 'dist', 'public');
@@ -47,8 +48,12 @@ server.get('/cubby-components', async (req, res) => {
           return;
         }
 
+        // Replace the API key with the dynamic query parameter
+        const apiKey = req.query['api-key'] || '';
+        const modifiedData = data.replace(/STOREFRONT_KEY/g, `${apiKey}`);
+
         res.setHeader('Content-Type', 'application/javascript');
-        res.send(data);
+        res.send(modifiedData);
       });
     });
   } catch (err) {
