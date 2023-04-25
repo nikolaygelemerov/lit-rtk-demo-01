@@ -10,8 +10,7 @@ import { CubbyFacility as CubbyFacilityType, Id } from './types';
 // eslint-disable-next-line prettier/prettier
 @customElement('cubby-facility')
 class CubbyFacility extends LitElement {
-  @property()
-  facilityId = 1 as Id;
+  @property({ attribute: 'facility-id', type: Number }) facilityId: Id = 1;
 
   @state()
   facility = {} as CubbyFacilityType;
