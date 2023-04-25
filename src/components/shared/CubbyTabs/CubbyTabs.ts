@@ -37,25 +37,25 @@ class CubbyTabs extends LitElement {
       padding: var(--cubby-offset-xl);
     }
 
-    @media (max-width: 1380px) {
+    @container (max-width: 1380px) {
       ::slotted([slot='panel'][selected]) {
         grid-template-columns: repeat(4, 1fr);
       }
     }
 
-    @media (max-width: 1040px) {
+    @container (max-width: 1040px) {
       ::slotted([slot='panel'][selected]) {
         grid-template-columns: repeat(3, 1fr);
       }
     }
 
-    @media (max-width: 800px) {
+    @container (max-width: 800px) {
       ::slotted([slot='panel'][selected]) {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    @media (max-width: 600px) {
+    @container (max-width: 600px) {
       nav {
         grid-template-columns: 1fr;
       }

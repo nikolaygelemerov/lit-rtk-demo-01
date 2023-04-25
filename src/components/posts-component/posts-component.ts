@@ -27,25 +27,25 @@ class PostsComponent extends connect(store)(LitElement) {
       color: var(--color-bkg-button);
     }
 
-    @media (max-width: 1526px) {
+    @container (max-width: 1526px) {
       .posts {
         grid-template-columns: repeat(4, 1fr);
       }
     }
 
-    @media (max-width: 1256px) {
+    @container (max-width: 1256px) {
       .posts {
         grid-template-columns: repeat(3, 1fr);
       }
     }
 
-    @media (max-width: 950px) {
+    @container (max-width: 950px) {
       .posts {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    @media (max-width: 628px) {
+    @container (max-width: 628px) {
       .posts {
         grid-template-columns: 1fr;
       }
