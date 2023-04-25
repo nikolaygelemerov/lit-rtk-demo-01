@@ -6,9 +6,9 @@ const keys = ['STOREFRONT_KEY'];
 const envConfig = dotenv.config().parsed;
 
 module.exports = {
-  generateEnvKeys: (isDev) =>
+  generateEnvKeys: (isDev, env) =>
     keys.reduce((accum, key) => {
-      accum[key] = isDev ? JSON.stringify(envConfig[key]) : JSON.stringify(process.env[key]);
+      accum[key] = isDev ? JSON.stringify(envConfig[key]) : JSON.stringify(env[key]);
 
       return accum;
     }, {})

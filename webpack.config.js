@@ -16,7 +16,7 @@ const prodName = 'public/[name].[chunkhash]';
 
 module.exports = (env, argv) => {
   const isDev = argv.mode === 'development';
-  const envKeys = generateEnvKeys(isDev);
+  const envKeys = generateEnvKeys(isDev, env);
 
   return {
     devServer,
