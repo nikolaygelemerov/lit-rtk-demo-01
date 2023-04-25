@@ -13,20 +13,21 @@ class CubbyFacilityHeader extends LitElement {
   static styles = css`
     .header {
       position: relative;
+      height: 300px;
       background: transparent
         url('https://st.depositphotos.com/1320280/2058/i/600/depositphotos_20581225-stock-photo-unit-storage.jpg')
         no-repeat center;
       background-size: cover;
-      height: 300px;
+      box-shadow: var(--cubby-box-shadow);
     }
 
     h1 {
       position: absolute;
-      bottom: 0.5rem;
-      left: 0.5rem;
+      bottom: var(--cubby-offset-s);
+      left: var(--cubby-offset-s);
       margin: 0;
       padding: 0;
-      color: var(--cubby-color-text-lighter);
+      color: var(--cubby-color-text-lightest);
       font-size: var(--cubby-font-size-xxl);
     }
   `;

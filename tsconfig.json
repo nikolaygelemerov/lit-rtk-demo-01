@@ -20,6 +20,8 @@
       "@components/*": ["./components/*"],
       "@constants": ["./constants"],
       "@constants/*": ["./constants/*"],
+      "@services": ["./services"],
+      "@services/*": ["./services/*"],
       "@store": ["./store"],
       "@store/*": ["./store/*"],
       "@types": ["./types"],

@@ -13,7 +13,7 @@ class CubbyTabs extends LitElement {
 
     nav > ::slotted([slot='tab']) {
       flex: 1 1 auto;
-      padding: 1rem 2rem;
+      padding: var(--cubby-offset-xl) var(--cubby-offset-xxxxl);
       color: var(--cubby-color-text-light);
       border-bottom: var(--cubby-border-width) solid var(--cubby-color-text-light);
       font-size: var(--cubby-font-size-xl);
@@ -33,8 +33,8 @@ class CubbyTabs extends LitElement {
     ::slotted([slot='panel'][selected]) {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 2rem;
-      padding: 1rem;
+      gap: var(--cubby-offset-xxxxl);
+      padding: var(--cubby-offset-xl);
     }
 
     @media (max-width: 1380px) {

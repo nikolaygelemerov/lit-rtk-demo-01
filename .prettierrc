@@ -2,7 +2,7 @@
   "endOfLine": "auto",
   "importOrder": [
     "^@lit(.*)$",
-    "^@assets(.*)|@assets/(.*)|^@components(.*)|@components/(.*)|^@constants(.*)|@constants/(.*)|@root(.*)|@root/(.*)|@store(.*)|@store/(.*)|@types(.*)|@types/(.*)$",
+    "^@assets(.*)|@assets/(.*)|^@components(.*)|@components/(.*)|^@constants(.*)|@constants/(.*)|@root(.*)|@root/(.*)|@services(.*)|@services/(.*)|@store(.*)|@store/(.*)|@types(.*)|@types/(.*)$",
     "^[./].*(?<!\\.scss)$",
     "\\.scss$"
   ],

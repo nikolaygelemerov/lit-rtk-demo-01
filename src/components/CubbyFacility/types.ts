@@ -8,10 +8,16 @@ export interface CubbyPricingGroupFacility {
   value: number;
 }
 
+export interface CubbyPricingGroupFeature {
+  category: string;
+  name: string;
+  value: number;
+}
+
 export interface CubbyPricingGroup {
   availableSpaceCount: number;
-  facilities: CubbyPricingGroupFacility[];
   facilityId: Id;
+  features: CubbyPricingGroupFeature[];
   id: Id;
   name: string;
   price: Price;
