@@ -1,5 +1,3 @@
-import './api-component';
-import './counter-component';
+import './CubbyFacilitiesFilters/CubbyFacilitiesFilters';
 import './CubbyFacility/CubbyFacility';
-import './posts-component/posts-component';
-import './update-counter-component';
+import './shared';

@@ -8,6 +8,7 @@ const alias = {
   '@constants': path.resolve(__dirname, 'src', 'constants'),
   '@services': path.resolve(__dirname, 'src', 'services'),
   '@store': path.resolve(__dirname, 'src', 'store'),
+  '@styles': path.resolve(__dirname, 'src', 'styles'),
   '@types': path.resolve(__dirname, 'src', 'types')
 };
 

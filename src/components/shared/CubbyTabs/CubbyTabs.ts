@@ -2,7 +2,6 @@
 import { css, html, LitElement, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-// eslint-disable-next-line prettier/prettier
 @customElement('cubby-tabs')
 class CubbyTabs extends LitElement {
   static styles = css`

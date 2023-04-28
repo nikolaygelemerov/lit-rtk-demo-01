@@ -1,12 +1,11 @@
 import { AnyAction, combineReducers, configureStore, Reducer } from '@reduxjs/toolkit';
 
-import { RootState } from '@types';
-
 import { api } from './api';
-import { counterSlice } from './slices/counter';
+import { facilitiesSlice } from './slices';
+import { RootState } from './types';
 
 const rootReducer: Reducer<RootState, AnyAction> = combineReducers({
-  counter: counterSlice.reducer,
+  facilities: facilitiesSlice.reducer,
   [api.reducerPath]: api.reducer
 });
 
