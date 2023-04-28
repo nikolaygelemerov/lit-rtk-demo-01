@@ -1,13 +1,20 @@
 /* eslint-disable max-len */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query';
 
-import { Post } from '@types';
+import { CubbyFacility } from '@types';
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://jsonplaceholder.typicode.com/' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:8080/',
+    headers: {
+      Authorization: `Bearer ${STOREFRONT_KEY}`,
+      'Content-Type': 'application/json',
+      Referer: 'localhost'
+    }
+  }),
   endpoints: (builder) => ({
-    fetchPosts: builder.query<Post[], void>({
-      query: () => 'posts'
+    getFacilities: builder.query<CubbyFacility[], void>({
+      query: () => 'marketing/v1/search'
     })
   }),
   reducerPath: 'api'

@@ -1,8 +1,10 @@
 import { css, html, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
+import { connect } from 'pwa-helpers';
 
-import { fetchFacilities } from '@services';
+import { store } from '@store';
+import { api, RootState } from '@store';
 import { baseStyles } from '@styles';
 
 import CubbyTabs from '../shared/CubbyTabs/CubbyTabs';
@@ -10,12 +12,13 @@ import './components';
 import { CubbyFacility as CubbyFacilityType, Id } from './types';
 
 @customElement('cubby-facility')
-class CubbyFacility extends LitElement {
+class CubbyFacility extends connect(store)(LitElement) {
   @property({ attribute: 'facility-id', type: Number }) facilityId: Id = 1;
 
   @state()
   facility = {} as CubbyFacilityType;
 
+  /*
   async firstUpdated() {
     try {
       const facility = await fetchFacilities(this.facilityId);
@@ -25,6 +28,21 @@ class CubbyFacility extends LitElement {
       }
     } catch (error) {
       console.error('Fetch error:', error);
+    }
+  }
+  */
+
+  stateChanged(state: RootState) {
+    const getFacilitiesSelector = api.endpoints.getFacilities.select();
+
+    const { data } = getFacilitiesSelector(state);
+
+    if (data) {
+      const facility = data.find((facility) => facility.facility.id === this.facilityId);
+
+      if (facility) {
+        this.facility = facility;
+      }
     }
   }
 

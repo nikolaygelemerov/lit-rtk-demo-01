@@ -4,10 +4,9 @@ import { repeat } from 'lit/directives/repeat.js';
 import { connect } from 'pwa-helpers';
 
 import '@assets';
-import { fetchFacilities } from '@services';
-import { RootState, SelectedFacilitiesMap, selectFacility, store } from '@store';
+import { api, RootState, SelectedFacilitiesMap, selectFacility, store } from '@store';
 import { baseStyles } from '@styles';
-import { CubbyFacility as CubbyFacilityType } from '@types';
+import { CubbyFacility } from '@types';
 
 @customElement('cubby-facilities-filters')
 class CubbyFacilitiesFilters extends connect(store)(LitElement) {
@@ -15,22 +14,10 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
   isOpen = true;
 
   @state()
-  facilities: CubbyFacilityType[] = [];
+  facilities: CubbyFacility[] = [];
 
   @state()
   selectedMap: SelectedFacilitiesMap = {};
-
-  async firstUpdated() {
-    try {
-      const facilities = await fetchFacilities();
-
-      if (facilities) {
-        this.facilities = facilities;
-      }
-    } catch (error) {
-      console.error('Fetch error:', error);
-    }
-  }
 
   static styles = css`
     ${baseStyles}
@@ -119,6 +106,14 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
 
   stateChanged(state: RootState) {
     this.selectedMap = state.facilities.selectedMap;
+
+    const getFacilitiesSelector = api.endpoints.getFacilities.select();
+
+    const { data } = getFacilitiesSelector(state);
+
+    if (data) {
+      this.facilities = data;
+    }
   }
 
   render() {
