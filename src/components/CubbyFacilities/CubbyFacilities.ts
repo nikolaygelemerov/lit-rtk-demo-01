@@ -32,14 +32,16 @@ class CubbyFacilities extends connect(store)(LitElement) {
 
   render() {
     return html`
-      ${repeat(
-        this.facilities || [],
-        (facility) => facility.facility.id,
-        (facility) =>
-          html`${this.selectedMap[facility.facility.id]
-            ? html`<cubby-facility facility-id="${facility.facility.id}"></cubby-facility>`
-            : ''}`
-      )}
+      <div>
+        ${repeat(
+          this.facilities || [],
+          (facility) => facility.facility.id,
+          (facility) =>
+            html`${this.selectedMap[facility.facility.id]
+              ? html`<cubby-facility facility-id="${facility.facility.id}"></cubby-facility>`
+              : ''}`
+        )}
+      </div>
     `;
   }
 }

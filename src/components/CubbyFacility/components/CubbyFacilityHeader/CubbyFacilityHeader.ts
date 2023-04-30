@@ -18,7 +18,7 @@ class CubbyFacilityHeader extends LitElement {
         url('https://st.depositphotos.com/1320280/2058/i/600/depositphotos_20581225-stock-photo-unit-storage.jpg')
         no-repeat center;
       background-size: cover;
-      box-shadow: var(--cubby-box-shadow);
+      box-shadow: var(--cubby-box-shadow-light);
     }
 
     h1 {

@@ -32,25 +32,29 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
       position: relative;
       display: flex;
       align-items: flex-start;
-      transform: translateX(0);
-      transition: transform var(--cubby-transition-time) ease-in-out;
+      width: 20rem;
+      transition: width var(--cubby-transition-time) ease-in-out;
     }
 
     .container-closed {
-      transform: translateX(calc(-100% + var(--filter-button-width)));
+      width: 0;
     }
 
     .button-wrap {
       display: flex;
       flex-direction: column;
       gap: var(--cubby-offset-l);
-      width: 20rem;
+      width: 100%;
       padding: var(--cubby-offset-xxl);
       overflow: hidden;
       background-color: var(--cubby-color-bkg-lightest);
       border-top: var(--cubby-border-width) solid var(--cubby-color-border-lighter);
       border-bottom-right-radius: var(--cubby-border-radius);
       box-shadow: var(--cubby-box-shadow-light);
+    }
+
+    .button-wrap-closed {
+      padding: 0;
     }
 
     .filter-title {
@@ -76,6 +80,10 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
     }
 
     .button-svg {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      right: calc(-1 * (var(--filter-button-width)));
       display: flex;
       align-items: center;
       justify-content: center;
@@ -119,7 +127,7 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
   render() {
     return html`
       <div class="container ${this.isOpen ? '' : 'container-closed'}">
-        <div class="button-wrap">
+        <div class="button-wrap ${this.isOpen ? '' : 'button-wrap-closed'}">
           <p class="filter-title">Select facilities</p>
           ${repeat(
             this.facilities || [],
