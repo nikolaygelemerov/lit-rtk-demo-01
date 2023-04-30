@@ -5,6 +5,8 @@ node_modules
 .idea
 .vscode
 
+.DS_Store
+
 # built code:
 dist
 
