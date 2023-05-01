@@ -36,6 +36,14 @@ class CubbyTabs extends LitElement {
       padding: var(--cubby-offset-xl);
     }
 
+    .nav-container {
+      container-type: inline-size;
+    }
+
+    .panel-container {
+      container-type: inline-size;
+    }
+
     @container (max-width: 1380px) {
       ::slotted([slot='panel'][selected]) {
         grid-template-columns: repeat(4, 1fr);
@@ -122,10 +130,14 @@ class CubbyTabs extends LitElement {
 
   render() {
     return html`
-      <nav>
-        <slot name="tab" @click=${(e: { target: Element }) => this.handleSelect(e)}></slot>
-      </nav>
-      <slot name="panel"></slot>
+      <div class="nav-container">
+        <nav>
+          <slot name="tab" @click=${(e: { target: Element }) => this.handleSelect(e)}></slot>
+        </nav>
+      </div>
+      <div class="panel-container">
+        <slot name="panel"></slot>
+      </div>
     `;
   }
 }

@@ -134,6 +134,7 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
             (facility) => facility.facility.id,
             (facility) =>
               html`<button
+                aria-label="Select facility ${facility.facility.id}"
                 class="button ${this.selectedMap[facility.facility.id] ? 'button-selected' : ''}"
                 @click="${() => {
                   store.dispatch(selectFacility(facility.facility.id));
@@ -144,7 +145,7 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
               </button>`
           )}
         </div>
-        <button class="button-svg" @click="${this.toggleOpen}">
+        <button aria-label="Toggle filters" class="button-svg" @click="${this.toggleOpen}">
           <cubby-filters-svg stroke="var(--cubby-color-text)"></cubby-filters-svg>
         </button>
         <div class="separator" />
