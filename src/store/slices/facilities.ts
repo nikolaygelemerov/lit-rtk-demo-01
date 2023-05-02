@@ -2,14 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Id } from '@types';
 
-export type SelectedFacilitiesMap = Record<Id, boolean>;
+export type FacilitiesSelected = Record<Id, boolean>;
 
 export interface Facilities {
-  selectedMap: SelectedFacilitiesMap;
+  selected: FacilitiesSelected;
 }
 
 const initialState: Facilities = {
-  selectedMap: {}
+  selected: {}
 };
 
 export const facilitiesSlice = createSlice({
@@ -17,7 +17,7 @@ export const facilitiesSlice = createSlice({
   name: 'facilities',
   reducers: {
     selectFacility: (state, action: PayloadAction<Id>) => {
-      state.selectedMap[action.payload] = !state.selectedMap[action.payload];
+      state.selected[action.payload] = !state.selected[action.payload];
     }
   }
 });

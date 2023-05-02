@@ -4,7 +4,7 @@ import { repeat } from 'lit/directives/repeat.js';
 import { connect } from 'pwa-helpers';
 
 import '@assets';
-import { api, RootState, SelectedFacilitiesMap, selectFacility, store } from '@store';
+import { api, FacilitiesSelected, RootState, selectFacility, store } from '@store';
 import { baseStyles } from '@styles';
 import { CubbyFacility } from '@types';
 
@@ -17,7 +17,7 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
   facilities: CubbyFacility[] = [];
 
   @state()
-  selectedMap: SelectedFacilitiesMap = {};
+  selected: FacilitiesSelected = {};
 
   static styles = css`
     ${baseStyles}
@@ -113,7 +113,7 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
   }
 
   stateChanged(state: RootState) {
-    this.selectedMap = state.facilities.selectedMap;
+    this.selected = state.facilities.selected;
 
     const getFacilitiesSelector = api.endpoints.getFacilities.select();
 
@@ -135,7 +135,7 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
             (facility) =>
               html`<button
                 aria-label="Select facility ${facility.facility.id}"
-                class="button ${this.selectedMap[facility.facility.id] ? 'button-selected' : ''}"
+                class="button ${this.selected[facility.facility.id] ? 'button-selected' : ''}"
                 @click="${() => {
                   store.dispatch(selectFacility(facility.facility.id));
                 }}"

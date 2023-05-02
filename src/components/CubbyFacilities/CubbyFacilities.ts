@@ -3,7 +3,7 @@ import { customElement, state } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { connect } from 'pwa-helpers';
 
-import { api, RootState, SelectedFacilitiesMap, store } from '@store';
+import { api, FacilitiesSelected, RootState, store } from '@store';
 import { baseStyles } from '@styles';
 import { CubbyFacility } from '@types';
 
@@ -13,14 +13,14 @@ class CubbyFacilities extends connect(store)(LitElement) {
   facilities: CubbyFacility[] = [];
 
   @state()
-  selectedMap: SelectedFacilitiesMap = {};
+  selected: FacilitiesSelected = {};
 
   firstUpdated() {
     store.dispatch(api.endpoints.getFacilities.initiate());
   }
 
   stateChanged(state: RootState) {
-    this.selectedMap = state.facilities.selectedMap;
+    this.selected = state.facilities.selected;
 
     const getFacilitiesSelector = api.endpoints.getFacilities.select();
 
@@ -48,7 +48,7 @@ class CubbyFacilities extends connect(store)(LitElement) {
         this.facilities || [],
         (facility) => facility.facility.id,
         (facility) =>
-          html`${this.selectedMap[facility.facility.id]
+          html`${this.selected[facility.facility.id]
             ? html`<cubby-facility facility-id="${facility.facility.id}"></cubby-facility>`
             : ''}`
       )}
