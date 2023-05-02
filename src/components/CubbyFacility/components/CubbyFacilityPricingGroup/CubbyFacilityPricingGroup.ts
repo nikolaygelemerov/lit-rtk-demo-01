@@ -18,11 +18,11 @@ class CubbyFacilityPricingGroup extends LitElement {
     .pricing-group {
       display: flex;
       flex-direction: column;
-      gap: var(--cubby-offset-m);
+      gap: var(--offset-m);
       height: 400px;
       overflow: hidden;
-      box-shadow: var(--cubby-box-shadow);
-      border-radius: var(--cubby-border-radius);
+      box-shadow: var(--box-shadow);
+      border-radius: var(--border-radius);
     }
 
     .image-container {
@@ -34,27 +34,27 @@ class CubbyFacilityPricingGroup extends LitElement {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: var(--cubby-offset-l);
+      padding: var(--offset-l);
     }
 
     .description {
       display: flex;
       flex-direction: column;
       height: 100px;
-      gap: var(--cubby-offset-m);
+      gap: var(--offset-m);
     }
 
     .name {
-      margin: var(--cubby-offset-zero);
-      color: var(--cubby-color-text);
-      font-size: var(--cubby-offset-xl);
+      margin: 0;
+      color: var(--color-text);
+      font-size: var(--offset-xl);
     }
 
     .feature {
       overflow: hidden;
-      margin: var(--cubby-offset-zero);
-      color: var(--cubby-color-text-light);
-      font-size: var(--cubby-font-size-s);
+      margin: 0;
+      color: var(--color-text-light);
+      font-size: var(--font-size-s);
     }
 
     .priceWrap {
@@ -62,14 +62,14 @@ class CubbyFacilityPricingGroup extends LitElement {
       flex: 1;
       justify-content: space-between;
       align-items: center;
-      padding: var(--cubby-offset-m);
-      color: var(--cubby-color-text-lighter);
-      border-top: var(--cubby-border-width) solid var(--cubby-color-text-lighter);
+      padding: var(--offset-m);
+      color: var(--color-text-lighter);
+      border-top: var(--border-width) solid var(--color-text-lighter);
     }
 
     .price {
-      color: var(--cubby-color-warn);
-      font-size: var(--cubby-font-size-m);
+      color: var(--color-warn);
+      font-size: var(--font-size-m);
     }
   `;
 

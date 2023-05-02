@@ -37,7 +37,7 @@ class CubbyFacilities extends connect(store)(LitElement) {
     :host {
       display: flex;
       flex-direction: column;
-      gap: calc(2 * var(--cubby-offset-xxxl));
+      gap: calc(2 * var(--offset-xxxl));
       width: 100%;
     }
   `;

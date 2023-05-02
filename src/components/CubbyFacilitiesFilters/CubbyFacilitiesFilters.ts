@@ -23,7 +23,7 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
     ${baseStyles}
 
     :host {
-      --filter-button-width: calc(2 * var(--cubby-offset-l) + 24px);
+      --filter-button-width: calc(2 * var(--offset-l) + 24px);
 
       display: flex;
     }
@@ -33,7 +33,7 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
       display: flex;
       align-items: flex-start;
       width: 20rem;
-      transition: width var(--cubby-transition-time) ease-in-out;
+      transition: width var(--transition-time) ease-in-out;
     }
 
     .container-closed {
@@ -43,14 +43,14 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
     .button-wrap {
       display: flex;
       flex-direction: column;
-      gap: var(--cubby-offset-l);
+      gap: var(--offset-l);
       width: 100%;
-      padding: var(--cubby-offset-xxl);
+      padding: var(--offset-xxl);
       overflow: hidden;
-      background-color: var(--cubby-color-bkg-lightest);
-      border-top: var(--cubby-border-width) solid var(--cubby-color-border-lighter);
-      border-bottom-right-radius: var(--cubby-border-radius);
-      box-shadow: var(--cubby-box-shadow-light);
+      background-color: var(--color-bkg-lightest);
+      border-top: var(--border-width) solid var(--color-border-lighter);
+      border-bottom-right-radius: var(--border-radius);
+      box-shadow: var(--box-shadow-light);
     }
 
     .button-wrap-closed {
@@ -58,25 +58,25 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
     }
 
     .filter-title {
-      font-size: var(--cubby-font-size-xl);
-      margin: var(--cubby-offset-m) 0;
+      font-size: var(--font-size-xl);
+      margin: var(--offset-m) 0;
     }
 
     .button {
-      padding: var(--cubby-offset-m) var(--cubby-offset-l);
-      color: var(--cubby-color-text);
-      font-size: var(--cubby-font-size-l);
-      background-color: var(--cubby-color-bkg-lighter);
+      padding: var(--offset-m) var(--offset-l);
+      color: var(--color-text);
+      font-size: var(--font-size-l);
+      background-color: var(--color-bkg-lighter);
       border: none;
-      border-radius: var(--cubby-border-radius);
-      box-shadow: var(--cubby-box-shadow-light);
-      transition: background-color var(--cubby-transition-time) ease-in-out;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow-light);
+      transition: background-color var(--transition-time) ease-in-out;
       cursor: pointer;
     }
 
     .button-selected,
     .button:hover {
-      background-color: var(--cubby-color-bkg-light);
+      background-color: var(--color-bkg-light);
     }
 
     .button-svg {
@@ -87,13 +87,13 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: var(--cubby-offset-m) var(--cubby-offset-l);
-      background-color: var(--cubby-color-bkg-lightest);
+      padding: var(--offset-m) var(--offset-l);
+      background-color: var(--color-bkg-lightest);
       border: none;
-      border-top: var(--cubby-border-width) solid var(--cubby-color-border-lighter);
-      border-top-right-radius: var(--cubby-border-radius);
-      border-bottom-right-radius: var(--cubby-border-radius);
-      box-shadow: var(--cubby-box-shadow-light);
+      border-top: var(--border-width) solid var(--color-border-lighter);
+      border-top-right-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
+      box-shadow: var(--box-shadow-light);
       cursor: pointer;
     }
 
@@ -101,10 +101,10 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
       position: absolute;
       z-index: 1;
       top: 1px;
-      right: calc(var(--filter-button-width) + var(--cubby-border-width));
+      right: calc(var(--filter-button-width) + var(--border-width));
       width: 2px;
-      height: calc(2 * var(--cubby-offset-m) + 24px);
-      background-color: var(--cubby-color-bkg-lightest);
+      height: calc(2 * var(--offset-m) + 24px);
+      background-color: var(--color-bkg-lightest);
     }
   `;
 
@@ -146,7 +146,7 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
           )}
         </div>
         <button aria-label="Toggle filters" class="button-svg" @click="${this.toggleOpen}">
-          <cubby-filters-svg stroke="var(--cubby-color-text)"></cubby-filters-svg>
+          <cubby-filters-svg stroke="var(--color-text)"></cubby-filters-svg>
         </button>
         <div class="separator" />
       </div>
