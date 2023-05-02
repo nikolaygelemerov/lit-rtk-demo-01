@@ -2,8 +2,8 @@ import { css } from 'lit';
 
 export const baseStyles = css`
   :host {
-    font-size: 16px;
-    font-family: var(--font-family-base);
+    font-size: var(--cubby-font-size, 16px);
+    font-family: var(--cubby-font-family, arial, helvetica, sans-serif);
 
     /* ********************************** */
     /* *********** color ************ */
@@ -35,11 +35,6 @@ export const baseStyles = css`
     --font-size-l: var(--cubby-font-size-l, 1rem); /* 16px */
     --font-size-xl: var(--cubby-font-size-xl, 1.5rem); /* 24px */
     --font-size-xxl: var(--cubby-font-size-xxl, 1.75rem); /* 28px */
-
-    /* ********************************** */
-    /* *********** font-family ************ */
-    /* ********************************** */
-    --font-family-base: var(--cubby-font-family-base, arial, helvetica, sans-serif);
 
     /* ********************************** */
     /* *********** offset ************ */

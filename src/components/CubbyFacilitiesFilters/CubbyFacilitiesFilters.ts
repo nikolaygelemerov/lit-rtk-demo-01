@@ -60,6 +60,7 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
     .filter-title {
       font-size: var(--font-size-xl);
       margin: var(--offset-m) 0;
+      color: var(--color-text);
     }
 
     .button {
