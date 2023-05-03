@@ -406,6 +406,51 @@ export const dummyData: CubbyFacility[] = [
             size: 600
           }
         ]
+      },
+      {
+        name: 'Group 4',
+        pricingGroups: [
+          {
+            availableSpaceCount: 4,
+            facilityId: 3,
+            features: [
+              {
+                category: 'Category B',
+                name: 'Facility D1',
+                value: 800
+              },
+              {
+                category: 'Category D',
+                name: 'Facility D2',
+                value: 1100
+              }
+            ],
+            id: 7,
+            name: 'Pricing Group 7',
+            price: 275,
+            size: 550
+          },
+          {
+            availableSpaceCount: 2,
+            facilityId: 3,
+            features: [
+              {
+                category: 'Category B',
+                name: 'Facility D1',
+                value: 800
+              },
+              {
+                category: 'Category D',
+                name: 'Facility D2',
+                value: 1100
+              }
+            ],
+            id: 8,
+            name: 'Pricing Group 8',
+            price: 350,
+            size: 700
+          }
+        ]
       }
     ]
   }
