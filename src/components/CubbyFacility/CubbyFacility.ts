@@ -111,9 +111,7 @@ class CubbyFacility extends connect(store)(LitElement) {
                 group.pricingGroups || [],
                 (pricingGroup) => pricingGroup.name,
                 (pricingGroup) =>
-                  html`<cubby-facility-pricing-group
-                    .pricingGroup=${pricingGroup}
-                  ></cubby-facility-pricing-group>`
+                  html`<cubby-facility-pricing-group .pricingGroup=${pricingGroup} />`
               )}
             </section>
           `
