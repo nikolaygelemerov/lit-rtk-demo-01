@@ -18,6 +18,9 @@ class CubbyFacility extends connect(store)(LitElement) {
   @state()
   facility = {} as CubbyFacilityType;
 
+  @property({ type: Boolean })
+  noHeader = false;
+
   /*
   async firstUpdated() {
     try {
@@ -94,7 +97,7 @@ class CubbyFacility extends connect(store)(LitElement) {
 
   render() {
     return html`
-      <cubby-facility-header .facility="${this.facility}"> </cubby-facility-header>
+      ${this.noHeader ? '' : html`<cubby-facility-header .facility="${this.facility}" />`}
       <cubby-tabs @keydown=${this.handleKeyDown} @tab-selected=${this.handleTabSelected}>
         ${repeat(
           this.facility.groups || [],

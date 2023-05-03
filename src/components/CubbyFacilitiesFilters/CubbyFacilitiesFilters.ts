@@ -97,16 +97,6 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
       box-shadow: var(--box-shadow-light);
       cursor: pointer;
     }
-
-    .separator {
-      position: absolute;
-      z-index: 1;
-      top: 1px;
-      right: calc(var(--filter-button-width) + var(--border-width));
-      width: 2px;
-      height: calc(2 * var(--offset-m) + 24px);
-      background-color: var(--color-bkg-lightest);
-    }
   `;
 
   toggleOpen() {
@@ -149,7 +139,6 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
         <button aria-label="Toggle filters" class="button-svg" @click="${this.toggleOpen}">
           <cubby-filters-svg stroke="var(--color-text)"></cubby-filters-svg>
         </button>
-        <div class="separator" />
       </div>
     `;
   }

@@ -1,5 +1,5 @@
 import { css, html, LitElement } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { connect } from 'pwa-helpers';
 
@@ -14,6 +14,19 @@ class CubbyFacilities extends connect(store)(LitElement) {
 
   @state()
   selected: FacilitiesSelected = {};
+
+  @property({ type: Object })
+  selectedIds: FacilitiesSelected = {};
+
+  @property({
+    attribute: 'no-header',
+    converter: {
+      fromAttribute: (value) => value === 'true',
+      toAttribute: (value) => (value ? 'true' : 'false')
+    },
+    type: Boolean
+  })
+  noHeader = false;
 
   firstUpdated() {
     store.dispatch(api.endpoints.getFacilities.initiate());
@@ -48,8 +61,11 @@ class CubbyFacilities extends connect(store)(LitElement) {
         this.facilities || [],
         (facility) => facility.facility.id,
         (facility) =>
-          html`${this.selected[facility.facility.id]
-            ? html`<cubby-facility facility-id="${facility.facility.id}"></cubby-facility>`
+          html`${this.selected[facility.facility.id] || this.selectedIds[facility.facility.id]
+            ? html`<cubby-facility
+                facility-id="${facility.facility.id}"
+                .noHeader="${this.noHeader}"
+              ></cubby-facility>`
             : ''}`
       )}
     `;
