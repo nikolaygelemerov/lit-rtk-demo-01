@@ -1,6 +1,15 @@
-import { css } from 'lit';
+import { css, CSSResult, unsafeCSS } from 'lit';
 
+let customStyles: CSSResult = css``;
+
+if (typeof STOREFRONT_STYLES !== 'undefined') {
+  customStyles = css`
+    ${unsafeCSS(STOREFRONT_STYLES)}
+  `;
+}
 export const baseStyles = css`
+  ${customStyles}
+
   :host {
     font-size: var(--cubby-font-size, 16px);
     font-family: var(--cubby-font-family, arial, helvetica, sans-serif);

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
@@ -21,7 +22,7 @@ module.exports = (env, argv) => {
 
   return {
     devServer,
-    devtool: isDev ? 'eval-source-map' : 'source-map',
+    devtool: isDev ? 'eval-source-map' : false, // 'source-map' (disable due to //# sourceMappingURL=app.b5ee5dc21dcc20774627.js.map })();)
     entry: {
       app: './src/index.ts'
     },

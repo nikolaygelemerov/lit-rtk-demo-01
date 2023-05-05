@@ -8,9 +8,11 @@ declare namespace JSX {
   }
 }
 
-declare let STOREFRONT_KEY: string;
-
 declare module '*.jpg' {
   const url: string;
   export default url;
 }
+
+declare const STOREFRONT_KEY: string;
+
+declare const STOREFRONT_STYLES: any;
