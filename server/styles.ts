@@ -1,0 +1,42 @@
+export const STOREFRONT_STYLES = `
+  :host {
+    --cubby-font-size: 16px;
+--cubby-font-family: georgia;
+--cubby-color-text: rgb(60, 60, 60);
+--cubby-color-text-light: rgb(180, 180, 180);
+--cubby-color-text-lighter: rgb(215, 215, 215);
+--cubby-color-text-lightest: rgb(255, 255, 255);
+--cubby-color-bkg: rgb(60, 60, 60);
+--cubby-color-bkg-light: rgb(180, 180, 180);
+--cubby-color-bkg-lighter: rgb(215, 215, 215);
+--cubby-color-bkg-lightest: rgb(255, 255, 255);
+--cubby-color-border: rgb(60, 60, 60);
+--cubby-color-border-light: rgb(180, 180, 180);
+--cubby-color-border-lighter: rgb(215, 215, 215);
+--cubby-color-border-lightest: rgb(255, 255, 255);
+--cubby-color-warn: rgb(214, 99, 100);
+--cubby-font-size-base: 16px;
+--cubby-font-size-xs: 0.625rem;
+--cubby-font-size-s: 0.75rem;
+--cubby-font-size-m: 0.875rem;
+--cubby-font-size-l: 1rem;
+--cubby-font-size-xl: 1.5rem;
+--cubby-font-size-xxl: 1.75rem;
+--cubby-font-family-base: arial, helvetica, sans-serif;
+--cubby-offset-min: 1px;
+--cubby-offset-xs: 0.25rem;
+--cubby-offset-s: 0.375rem;
+--cubby-offset-m: 0.5rem;
+--cubby-offset-l: 0.75rem;
+--cubby-offset-xl: 1rem;
+--cubby-offset-xxl: 1.25rem;
+--cubby-offset-xxxl: 1.5rem;
+--cubby-offset-xxxxl: 2rem;
+--cubby-border-radius: 0.25rem;
+--cubby-border-width: 1px;
+--cubby-border-width-bold: 2px;
+--cubby-box-shadow: rgb(0 0 0 / 35%) 0 5px 10px;
+--cubby-box-shadow-light: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+--cubby-transition-time: 300ms;
+  }
+  `;

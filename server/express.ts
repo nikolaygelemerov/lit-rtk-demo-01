@@ -1,14 +1,17 @@
 /* eslint-disable compat/compat */
+import bodyParser from 'body-parser';
 import { exec } from 'child_process';
 import cors from 'cors';
 import express from 'express';
+// POST endpoint to save CSS variables
+import { Request, Response } from 'express';
 import fs from 'fs';
 import glob from 'glob';
 import path from 'path';
 import util from 'util';
 import zlib from 'zlib';
 
-import { STOREFRONT_STYLES } from './dummyStyles';
+import { STOREFRONT_STYLES } from './styles';
 
 const execPromise = util.promisify(exec);
 
@@ -87,10 +90,51 @@ server.get('/cubby-components', async (req, res) => {
   }
 });
 
+// Use body-parser middleware to parse JSON request bodies
+server.use(bodyParser.json());
+
+// POST endpoint to save CSS variables
+server.post('/save-styles', async (req: Request, res: Response) => {
+  const cssVariables = req.body.cssVariables;
+
+  const cssVariablesString = Object.entries(cssVariables)
+    .map(([key, value]) => `${key}: ${value};`)
+    .join('\n');
+
+  const stylesFile = path.join(__dirname, 'styles.ts');
+  const stylesContent = `export const STOREFRONT_STYLES = \`
+  :host {
+    ${cssVariablesString}
+  }
+  \`;`;
+
+  // Write the content to the styles.js file
+  try {
+    await new Promise<void>((resolve, reject) => {
+      fs.writeFile(stylesFile, stylesContent, (err) => {
+        if (err) {
+          console.error('Error writing to styles.js:', err);
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    return res.status(200).json({ message: 'Styles saved successfully' });
+  } catch (error) {
+    return res.status(500).json({ error: 'Failed to save styles' });
+  }
+});
+
 // Set up CORS middleware to allow localhost:8090
 const corsOptions = {
   optionsSuccessStatus: 200,
-  origin: 'http://localhost:8090'
+  origin: true // 'http://localhost:8090'
 };
 
 server.use(cors(corsOptions));
