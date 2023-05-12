@@ -13,6 +13,7 @@ class CubbyFacilityHeader extends LitElement {
   static styles = css`
     .header {
       position: relative;
+      display: var(--header-display);
       height: 300px;
       background: transparent
         url('https://st.depositphotos.com/1320280/2058/i/600/depositphotos_20581225-stock-photo-unit-storage.jpg')

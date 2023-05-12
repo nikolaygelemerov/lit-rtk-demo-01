@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 /* eslint-disable compat/compat */
 import bodyParser from 'body-parser';
-import { exec } from 'child_process';
 import cors from 'cors';
 import express from 'express';
 // POST endpoint to save CSS variables
@@ -8,12 +9,10 @@ import { Request, Response } from 'express';
 import fs from 'fs';
 import glob from 'glob';
 import path from 'path';
-import util from 'util';
 import zlib from 'zlib';
 
-import { STOREFRONT_STYLES } from './styles';
-
-const execPromise = util.promisify(exec);
+import { STYLES_CACHE, STYLES_CACHE_READY } from './cache';
+import { buildCSSVars } from './utils';
 
 const server = express();
 
@@ -23,15 +22,40 @@ const staticMiddleware = express.static('dist');
 
 server.use(staticMiddleware);
 
+const mapCSSVars = () => {
+  Object.keys(STYLES_CACHE).forEach((key) => {
+    if (STYLES_CACHE[key]?.cssVariables) {
+      STYLES_CACHE_READY[key] = {
+        cssVariables: JSON.stringify(buildCSSVars(STYLES_CACHE[key].cssVariables))
+      };
+    }
+  });
+
+  return STYLES_CACHE_READY;
+};
+
+// Middleware to set headers for every HTTP request
+server.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
+// Use body-parser middleware to parse JSON request bodies
+server.use(bodyParser.json());
+
 server.get('/cubby-components', async (req, res) => {
   // Run the build command from the correct directory
   try {
-    // const apiKey = req.query['api-key'] || '';
+    /*
+    const apiKey = req.query['api-key'] || '';
 
-    // Run the build command from the correct directory and wait for it to complete
-    // const stdout = await execPromise(`webpack --mode production --env STOREFRONT_KEY=${apiKey}`);
+    Run the build command from the correct directory and wait for it to complete
+    const stdout = await execPromise(`webpack --mode production --env STOREFRONT_KEY=${apiKey}`);
 
-    // console.log('stdout: ', stdout);
+    console.log('stdout: ', stdout);
+    */
 
     // Read the built JavaScript file and return it
     const builtFilesPath = path.resolve(__dirname, '..', 'dist', 'public');
@@ -51,13 +75,13 @@ server.get('/cubby-components', async (req, res) => {
     const data = await fs.promises.readFile(builtFilePath, 'utf-8');
 
     const apiKey = req.query['api-key'] || '';
-    const isManager = req.query['is-manager'] || '';
+    // const isManager = req.query['is-manager'] || '';
 
     // const modifiedData = data.replace(/STOREFRONT_KEY/g, `${apiKey}`);
 
     const modifiedData = `(function() {
       const STOREFRONT_KEY = "${apiKey}";
-      ${isManager ? '' : `const STOREFRONT_STYLES = \`${STOREFRONT_STYLES}\`;`}
+      const STOREFRONT_STYLES = ${JSON.stringify(mapCSSVars())};
 
       ${data}
     })();`;
@@ -90,44 +114,35 @@ server.get('/cubby-components', async (req, res) => {
   }
 });
 
-// Use body-parser middleware to parse JSON request bodies
-server.use(bodyParser.json());
-
 // POST endpoint to save CSS variables
-server.post('/save-styles', async (req: Request, res: Response) => {
-  const cssVariables = req.body.cssVariables;
-
-  const cssVariablesString = Object.entries(cssVariables)
-    .map(([key, value]) => `${key}: ${value};`)
-    .join('\n');
-
-  const stylesFile = path.join(__dirname, 'styles.ts');
-  const stylesContent = `export const STOREFRONT_STYLES = \`
-  :host {
-    ${cssVariablesString}
-  }
-  \`;`;
-
-  // Write the content to the styles.js file
+server.post('/save-styles/:componentId/:versionId', async (req: Request, res: Response) => {
   try {
-    await new Promise<void>((resolve, reject) => {
-      fs.writeFile(stylesFile, stylesContent, (err) => {
-        if (err) {
-          console.error('Error writing to styles.js:', err);
-          reject(err);
-        } else {
-          resolve();
-        }
-      });
-    });
+    const { cssVariables } = req.body;
+    const { componentId, versionId } = req.params;
 
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    STYLES_CACHE[`${componentId}-${versionId}`] = { cssVariables };
 
     return res.status(200).json({ message: 'Styles saved successfully' });
   } catch (error) {
     return res.status(500).json({ error: 'Failed to save styles' });
+  }
+});
+
+server.get('/get-styles/:componentId/:versionId', (req, res) => {
+  try {
+    const { componentId, versionId } = req.params;
+
+    if (!STYLES_CACHE[`${componentId}-${versionId}`]) {
+      return res.status(404).json({ error: 'Styles not found' });
+    }
+
+    return res.status(200).json({
+      cssVariables: STYLES_CACHE[`${componentId}-${versionId}`].cssVariables,
+      message: 'Styles fetched successfully'
+    });
+  } catch (error) {
+    console.error('Failed to read styles:', error);
+    return res.status(500).json({ error: 'Failed to get styles' });
   }
 });
 
