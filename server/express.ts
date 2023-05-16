@@ -12,6 +12,7 @@ import path from 'path';
 import zlib from 'zlib';
 
 import { STYLES_CACHE, STYLES_CACHE_READY } from './cache';
+import { config } from './config';
 import { buildCSSVars } from './utils';
 
 const server = express();
@@ -112,6 +113,13 @@ server.get('/cubby-components', async (req, res) => {
     console.error(`build error: ${err}`);
     res.status(500).send('An error occurred while building the file');
   }
+});
+
+server.get('/get-config/:apiKey', (req, res) => {
+  const { apiKey } = req.params;
+
+  res.setHeader('Content-Type', 'application/json');
+  res.send(config);
 });
 
 // POST endpoint to save CSS variables

@@ -7,97 +7,106 @@ import { api, FacilitiesSelected, RootState, store } from '@store';
 import { baseStyles } from '@styles';
 import { CubbyFacility } from '@types';
 
-@customElement('cubby-facilities')
-class CubbyFacilities extends connect(store)(LitElement) {
-  @state()
-  facilities: CubbyFacility[] = [];
+export const initialize = (data: unknown) => {
+  console.log('data: ', data);
 
-  @state()
-  selected: FacilitiesSelected = {};
+  @customElement('cubby-facilities')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  class CubbyFacilities extends connect(store)(LitElement) {
+    constructor() {
+      super();
 
-  @property({ type: Object })
-  selectedIds: FacilitiesSelected = {};
+      console.log('Constructor');
+    }
 
-  @property({
-    attribute: 'no-header',
-    converter: {
-      fromAttribute: (value) => value === 'true',
-      toAttribute: (value) => (value ? 'true' : 'false')
-    },
-    type: Boolean
-  })
-  noHeader = false;
+    @state()
+    facilities: CubbyFacility[] = [];
 
-  @state()
-  private componentId = 1;
+    @state()
+    selected: FacilitiesSelected = {};
 
-  @property({ type: Number })
-  private version: number | undefined;
+    @property({ type: Object })
+    selectedIds: FacilitiesSelected = {};
 
-  @state()
-  customStyles: CSSResult = css``;
+    @property({
+      attribute: 'no-header',
+      converter: {
+        fromAttribute: (value) => value === 'true',
+        toAttribute: (value) => (value ? 'true' : 'false')
+      },
+      type: Boolean
+    })
+    noHeader = false;
 
-  firstUpdated() {
-    store.dispatch(api.endpoints.getFacilities.initiate());
+    @state()
+    private componentId = 1;
 
-    if (STOREFRONT_STYLES?.[`${this.componentId}-${this.version}`]?.cssVariables) {
-      const cssVariablesString =
-        STOREFRONT_STYLES[`${this.componentId}-${this.version}`].cssVariables;
-      const cssVariables = JSON.parse(cssVariablesString);
+    @property({ type: Number })
+    private version: number | undefined;
 
-      const cssString = Object.entries(cssVariables)
-        .map(([key, value]) => `${key}: ${value};`)
-        .join('\n');
+    @state()
+    customStyles: CSSResult = css``;
 
-      const hostString = `:host {
+    firstUpdated() {
+      store.dispatch(api.endpoints.getFacilities.initiate());
+
+      if (STOREFRONT_STYLES?.[`${this.componentId}-${this.version}`]?.cssVariables) {
+        const cssVariablesString =
+          STOREFRONT_STYLES[`${this.componentId}-${this.version}`].cssVariables;
+        const cssVariables = JSON.parse(cssVariablesString);
+
+        const cssString = Object.entries(cssVariables)
+          .map(([key, value]) => `${key}: ${value};`)
+          .join('\n');
+
+        const hostString = `:host {
         ${cssString}
       }`;
 
-      this.customStyles = css`
-        ${unsafeCSS(hostString)}
+        this.customStyles = css`
+          ${unsafeCSS(hostString)}
+        `;
+      }
+    }
+
+    stateChanged(state: RootState) {
+      this.selected = state.facilities.selected;
+
+      const getFacilitiesSelector = api.endpoints.getFacilities.select();
+
+      const { data } = getFacilitiesSelector(state);
+
+      if (data) {
+        this.facilities = data;
+      }
+    }
+
+    static styles = css`
+      ${baseStyles}
+
+      :host {
+        display: flex;
+        flex-direction: column;
+        gap: calc(2 * var(--offset-xxxl));
+        width: 100%;
+      }
+    `;
+
+    render() {
+      return html`
+        <style>
+          ${this.customStyles}
+        </style>
+        ${repeat(
+          this.facilities || [],
+          (facility) => facility.facility.id,
+          (facility) =>
+            html`<cubby-facility
+              facility-id="${facility.facility.id}"
+              .noHeader="${this.noHeader}"
+            ></cubby-facility>`
+        )}
       `;
     }
   }
-
-  stateChanged(state: RootState) {
-    this.selected = state.facilities.selected;
-
-    const getFacilitiesSelector = api.endpoints.getFacilities.select();
-
-    const { data } = getFacilitiesSelector(state);
-
-    if (data) {
-      this.facilities = data;
-    }
-  }
-
-  static styles = css`
-    ${baseStyles}
-
-    :host {
-      display: flex;
-      flex-direction: column;
-      gap: calc(2 * var(--offset-xxxl));
-      width: 100%;
-    }
-  `;
-
-  render() {
-    return html`
-      <style>
-        ${this.customStyles}
-      </style>
-      ${repeat(
-        this.facilities || [],
-        (facility) => facility.facility.id,
-        (facility) =>
-          html`<cubby-facility
-            facility-id="${facility.facility.id}"
-            .noHeader="${this.noHeader}"
-          ></cubby-facility>`
-      )}
-    `;
-  }
-}
-
-export default CubbyFacilities;
+};

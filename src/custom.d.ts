@@ -16,3 +16,15 @@ declare module '*.jpg' {
 declare const STOREFRONT_KEY: string;
 
 declare const STOREFRONT_STYLES: any;
+
+declare let STOREFRONT: any;
+
+declare module '../styles.js' {
+  const styles: any;
+  export default styles;
+}
+
+declare module 'cubby-config' {
+  const styles: any;
+  export default styles;
+}
