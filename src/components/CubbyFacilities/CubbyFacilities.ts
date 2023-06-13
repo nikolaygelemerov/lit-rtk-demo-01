@@ -3,24 +3,31 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { connect } from 'pwa-helpers';
 
+import { initializeProxy } from '@services';
 import { api, FacilitiesSelected, RootState, store } from '@store';
 import { baseStyles } from '@styles';
 import { CubbyFacility } from '@types';
 
-let isConnectedPromise: Promise<string>;
+export const ID = 'cubby-facilities';
 
 @customElement('cubby-facilities')
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class CubbyFacilities extends connect(store)(LitElement) {
-  connectedCallback(): void {
+  connectedCallback() {
     super.connectedCallback();
 
-    // eslint-disable-next-line compat/compat
-    isConnectedPromise = Promise.resolve('connected');
+    this.id = ID;
+
+    initializeProxy[this.id] = {
+      isConnected: true
+    };
   }
 
   @state()
-  initialized = false; // New state
+  initialized = false;
+
+  @state()
+  data = null;
 
   @state()
   facilities: CubbyFacility[] = [];
@@ -96,7 +103,8 @@ class CubbyFacilities extends connect(store)(LitElement) {
   `;
 
   render() {
-    console.log('this.initialized: ', this.initialized);
+    console.log('CubbyFacilities data: ', this.data);
+    console.log('CubbyFacilities initialized: ', this.initialized);
 
     return html`
       ${this.initialized
@@ -112,19 +120,9 @@ class CubbyFacilities extends connect(store)(LitElement) {
                   .noHeader="${this.noHeader}"
                 ></cubby-facility>`
             )}`
-        : html`<div>Loading...</div>`}
+        : html`<h1>Cubby Facilities Loading...</h1>`}
     `;
   }
 }
 
-export const initialize = () => {
-  isConnectedPromise.then(() => {
-    console.log('CALLED');
-    const element = document.querySelector('cubby-facilities') as CubbyFacilities;
-
-    if (element) {
-      element.initialized = true;
-      element.requestUpdate(); // Cause LitElement to perform an update
-    }
-  });
-};
+export default CubbyFacilities;
