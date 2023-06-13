@@ -7,106 +7,124 @@ import { api, FacilitiesSelected, RootState, store } from '@store';
 import { baseStyles } from '@styles';
 import { CubbyFacility } from '@types';
 
-export const initialize = (data: unknown) => {
-  console.log('data: ', data);
+let isConnectedPromise: Promise<string>;
 
-  @customElement('cubby-facilities')
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  class CubbyFacilities extends connect(store)(LitElement) {
-    constructor() {
-      super();
+@customElement('cubby-facilities')
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+class CubbyFacilities extends connect(store)(LitElement) {
+  connectedCallback(): void {
+    super.connectedCallback();
 
-      console.log('Constructor');
-    }
+    // eslint-disable-next-line compat/compat
+    isConnectedPromise = Promise.resolve('connected');
+  }
 
-    @state()
-    facilities: CubbyFacility[] = [];
+  @state()
+  initialized = false; // New state
 
-    @state()
-    selected: FacilitiesSelected = {};
+  @state()
+  facilities: CubbyFacility[] = [];
 
-    @property({ type: Object })
-    selectedIds: FacilitiesSelected = {};
+  @state()
+  selected: FacilitiesSelected = {};
 
-    @property({
-      attribute: 'no-header',
-      converter: {
-        fromAttribute: (value) => value === 'true',
-        toAttribute: (value) => (value ? 'true' : 'false')
-      },
-      type: Boolean
-    })
-    noHeader = false;
+  @property({ type: Object })
+  selectedIds: FacilitiesSelected = {};
 
-    @state()
-    private componentId = 1;
+  @property({
+    attribute: 'no-header',
+    converter: {
+      fromAttribute: (value) => value === 'true',
+      toAttribute: (value) => (value ? 'true' : 'false')
+    },
+    type: Boolean
+  })
+  noHeader = false;
 
-    @property({ type: Number })
-    private version: number | undefined;
+  @state()
+  private componentId = 1;
 
-    @state()
-    customStyles: CSSResult = css``;
+  @property({ type: Number })
+  private version: number | undefined;
 
-    firstUpdated() {
-      store.dispatch(api.endpoints.getFacilities.initiate());
+  @state()
+  customStyles: CSSResult = css``;
 
-      if (STOREFRONT_STYLES?.[`${this.componentId}-${this.version}`]?.cssVariables) {
-        const cssVariablesString =
-          STOREFRONT_STYLES[`${this.componentId}-${this.version}`].cssVariables;
-        const cssVariables = JSON.parse(cssVariablesString);
+  firstUpdated() {
+    store.dispatch(api.endpoints.getFacilities.initiate());
 
-        const cssString = Object.entries(cssVariables)
-          .map(([key, value]) => `${key}: ${value};`)
-          .join('\n');
+    if (STOREFRONT_STYLES?.[`${this.componentId}-${this.version}`]?.cssVariables) {
+      const cssVariablesString =
+        STOREFRONT_STYLES[`${this.componentId}-${this.version}`].cssVariables;
+      const cssVariables = JSON.parse(cssVariablesString);
 
-        const hostString = `:host {
+      const cssString = Object.entries(cssVariables)
+        .map(([key, value]) => `${key}: ${value};`)
+        .join('\n');
+
+      const hostString = `:host {
         ${cssString}
       }`;
 
-        this.customStyles = css`
-          ${unsafeCSS(hostString)}
-        `;
-      }
-    }
-
-    stateChanged(state: RootState) {
-      this.selected = state.facilities.selected;
-
-      const getFacilitiesSelector = api.endpoints.getFacilities.select();
-
-      const { data } = getFacilitiesSelector(state);
-
-      if (data) {
-        this.facilities = data;
-      }
-    }
-
-    static styles = css`
-      ${baseStyles}
-
-      :host {
-        display: flex;
-        flex-direction: column;
-        gap: calc(2 * var(--offset-xxxl));
-        width: 100%;
-      }
-    `;
-
-    render() {
-      return html`
-        <style>
-          ${this.customStyles}
-        </style>
-        ${repeat(
-          this.facilities || [],
-          (facility) => facility.facility.id,
-          (facility) =>
-            html`<cubby-facility
-              facility-id="${facility.facility.id}"
-              .noHeader="${this.noHeader}"
-            ></cubby-facility>`
-        )}
+      this.customStyles = css`
+        ${unsafeCSS(hostString)}
       `;
     }
   }
+
+  stateChanged(state: RootState) {
+    this.selected = state.facilities.selected;
+
+    const getFacilitiesSelector = api.endpoints.getFacilities.select();
+
+    const { data } = getFacilitiesSelector(state);
+
+    if (data) {
+      this.facilities = data;
+    }
+  }
+
+  static styles = css`
+    ${baseStyles}
+
+    :host {
+      display: flex;
+      flex-direction: column;
+      gap: calc(2 * var(--offset-xxxl));
+      width: 100%;
+    }
+  `;
+
+  render() {
+    console.log('this.initialized: ', this.initialized);
+
+    return html`
+      ${this.initialized
+        ? html` <style>
+              ${this.customStyles}
+            </style>
+            ${repeat(
+              this.facilities || [],
+              (facility) => facility.facility.id,
+              (facility) =>
+                html`<cubby-facility
+                  facility-id="${facility.facility.id}"
+                  .noHeader="${this.noHeader}"
+                ></cubby-facility>`
+            )}`
+        : html`<div>Loading...</div>`}
+    `;
+  }
+}
+
+export const initialize = () => {
+  isConnectedPromise.then(() => {
+    console.log('CALLED');
+    const element = document.querySelector('cubby-facilities') as CubbyFacilities;
+
+    if (element) {
+      element.initialized = true;
+      element.requestUpdate(); // Cause LitElement to perform an update
+    }
+  });
 };

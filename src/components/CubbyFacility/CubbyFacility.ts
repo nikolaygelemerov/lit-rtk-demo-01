@@ -13,6 +13,9 @@ import { CubbyFacility as CubbyFacilityType, Id } from './types';
 
 @customElement('cubby-facility')
 class CubbyFacility extends connect(store)(LitElement) {
+  @state()
+  initialized = false; // New state
+
   @property({ attribute: 'facility-id', type: Number }) facilityId: Id = 1;
 
   @state()
@@ -97,28 +100,38 @@ class CubbyFacility extends connect(store)(LitElement) {
 
   render() {
     return html`
-      ${this.noHeader ? '' : html`<cubby-facility-header .facility="${this.facility}" />`}
-      <cubby-tabs @keydown=${this.handleKeyDown} @tab-selected=${this.handleTabSelected}>
-        ${repeat(
-          this.facility.groups || [],
-          (group) => group.name,
-          (group, index) => html`
-            <h2 slot="tab" @click=${(e: MouseEvent) => this.handleClick(e, index)}>
-              ${group.name}
-            </h2>
-            <section slot="panel">
+      ${this.initialized
+        ? html`
+            ${this.noHeader ? '' : html`<cubby-facility-header .facility="${this.facility}" />`}
+            <cubby-tabs @keydown=${this.handleKeyDown} @tab-selected=${this.handleTabSelected}>
               ${repeat(
-                group.pricingGroups || [],
-                (pricingGroup) => pricingGroup.name,
-                (pricingGroup) =>
-                  html`<cubby-facility-pricing-group .pricingGroup=${pricingGroup} />`
+                this.facility.groups || [],
+                (group) => group.name,
+                (group, index) => html`
+                  <h2 slot="tab" @click=${(e: MouseEvent) => this.handleClick(e, index)}>
+                    ${group.name}
+                  </h2>
+                  <section slot="panel">
+                    ${repeat(
+                      group.pricingGroups || [],
+                      (pricingGroup) => pricingGroup.name,
+                      (pricingGroup) =>
+                        html`<cubby-facility-pricing-group .pricingGroup=${pricingGroup} />`
+                    )}
+                  </section>
+                `
               )}
-            </section>
+            </cubby-tabs>
           `
-        )}
-      </cubby-tabs>
+        : html`<div>Loading...</div>`}
     `;
   }
 }
 
-export default CubbyFacility;
+export const initialize = () => {
+  const element = document.querySelector('cubby-facility') as CubbyFacility;
+  if (element) {
+    element.initialized = true;
+    element.requestUpdate(); // Cause LitElement to perform an update
+  }
+};

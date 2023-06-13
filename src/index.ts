@@ -1,29 +1,26 @@
-const scripts = document.getElementsByTagName('script');
-
-let apiKey = '';
+import '@components';
+import * as cubbyFacilities from '@components/CubbyFacilities/CubbyFacilities';
+import * as cubbyFacility from '@components/CubbyFacility/CubbyFacility';
 
 const url = 'http://localhost:8090/cubby-components?api-key=';
+let apiKey = '';
 
-for (const script of scripts) {
-  if (script.src.indexOf(url) === -1) {
-    continue;
-  }
+// eslint-disable-next-line compat/compat
+const currentScript = document.currentScript as HTMLScriptElement;
 
-  apiKey = script.src.split(url)[1];
-  break;
+if (currentScript && currentScript.src.indexOf(url) !== -1) {
+  apiKey = currentScript.src.split(url)[1];
 }
 
 // eslint-disable-next-line compat/compat
 fetch(`http://localhost:8090/get-config/${apiKey}`)
   .then((response) => response.json())
-  .then((config) => {
-    import('@components');
+  .then(async () => {
+    await customElements.whenDefined('cubby-facilities');
+    cubbyFacilities.initialize();
 
-    import('@components/CubbyFacilities/CubbyFacilities').then(({ initialize }) => {
-      console.log('config: ', config);
-
-      initialize(config);
-    });
+    await customElements.whenDefined('cubby-facility');
+    cubbyFacility.initialize();
   })
   .catch((err) => {
     console.error(`Error loading config: ${err}`);
