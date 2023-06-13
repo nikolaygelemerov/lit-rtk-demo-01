@@ -76,7 +76,6 @@ server.get('/cubby-components', async (req, res) => {
     const data = await fs.promises.readFile(builtFilePath, 'utf-8');
 
     const apiKey = req.query['api-key'] || '';
-    // const isManager = req.query['is-manager'] || '';
 
     // const modifiedData = data.replace(/STOREFRONT_KEY/g, `${apiKey}`);
 
