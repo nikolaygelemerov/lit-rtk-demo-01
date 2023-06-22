@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { css, html, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
 
 import { arrayShuffle } from '@services';
@@ -8,8 +8,6 @@ import { arrayShuffle } from '@services';
 import { imagesURLS } from '../../dummy/imageURLS';
 import { CubbyPricingGroup } from '../../types';
 
-// eslint-disable-next-line prettier/prettier
-@customElement('cubby-facility-pricing-group')
 class CubbyFacilityPricingGroup extends LitElement {
   @property()
   pricingGroup = {} as CubbyPricingGroup;
@@ -110,6 +108,15 @@ class CubbyFacilityPricingGroup extends LitElement {
       </div>
     `;
   }
+}
+
+console.log(
+  'customElements.get(cubby-facility-pricing-group)',
+  customElements.get('cubby-facility-pricing-group')
+);
+
+if (customElements.get('cubby-facility-pricing-group') === undefined) {
+  customElements.define('cubby-facility-pricing-group', CubbyFacilityPricingGroup);
 }
 
 export default CubbyFacilityPricingGroup;

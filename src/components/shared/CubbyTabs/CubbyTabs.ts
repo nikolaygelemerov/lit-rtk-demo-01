@@ -1,8 +1,7 @@
 /* eslint-disable max-len */
 import { css, html, LitElement, PropertyValues } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 
-@customElement('cubby-tabs')
 class CubbyTabs extends LitElement {
   static styles = css`
     nav {
@@ -140,6 +139,12 @@ class CubbyTabs extends LitElement {
       </div>
     `;
   }
+}
+
+console.log('customElements.get(cubby-tabs)', customElements.get('cubby-tabs'));
+
+if (customElements.get('cubby-tabs') === undefined) {
+  customElements.define('cubby-tabs', CubbyTabs);
 }
 
 export default CubbyTabs;

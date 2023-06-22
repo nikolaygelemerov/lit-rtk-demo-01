@@ -1,5 +1,5 @@
 import { css, html, LitElement } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { property, state } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { connect } from 'pwa-helpers';
 
@@ -11,7 +11,6 @@ import CubbyTabs from '../shared/CubbyTabs/CubbyTabs';
 import './components';
 import { CubbyFacility as CubbyFacilityType, Id } from './types';
 
-@customElement('cubby-facility')
 class CubbyFacility extends connect(store)(LitElement) {
   @property({ attribute: 'facility-id', type: Number }) facilityId: Id = 1;
 
@@ -119,6 +118,12 @@ class CubbyFacility extends connect(store)(LitElement) {
       </cubby-tabs>
     `;
   }
+}
+
+console.log('customElements.get(cubby-facility)', customElements.get('cubby-facility'));
+
+if (customElements.get('cubby-facility') === undefined) {
+  customElements.define('cubby-facility', CubbyFacility);
 }
 
 export default CubbyFacility;

@@ -1,7 +1,6 @@
 import { html, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 
-@customElement('cubby-filters-svg')
 class CubbyFilterSvg extends LitElement {
   @property()
   width = '24';
@@ -39,6 +38,12 @@ class CubbyFilterSvg extends LitElement {
       </svg>
     `;
   }
+}
+
+console.log('customElements.get(cubby-filters-svg)', customElements.get('cubby-filters-svg'));
+
+if (customElements.get('cubby-filters-svg') === undefined) {
+  customElements.define('cubby-filters-svg', CubbyFilterSvg);
 }
 
 export default CubbyFilterSvg;

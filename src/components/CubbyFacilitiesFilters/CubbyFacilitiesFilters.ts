@@ -1,5 +1,5 @@
 import { css, html, LitElement } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
+import { state } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { connect } from 'pwa-helpers';
 
@@ -8,7 +8,6 @@ import { api, FacilitiesSelected, RootState, selectFacility, store } from '@stor
 import { baseStyles } from '@styles';
 import { CubbyFacility } from '@types';
 
-@customElement('cubby-facilities-filters')
 class CubbyFacilitiesFilters extends connect(store)(LitElement) {
   @state()
   isOpen = true;
@@ -142,6 +141,15 @@ class CubbyFacilitiesFilters extends connect(store)(LitElement) {
       </div>
     `;
   }
+}
+
+console.log(
+  'customElements.get(cubby-facilities-filters)',
+  customElements.get('cubby-facilities-filters')
+);
+
+if (customElements.get('cubby-facilities-filters') === undefined) {
+  customElements.define('cubby-facilities-filters', CubbyFacilitiesFilters);
 }
 
 export default CubbyFacilitiesFilters;

@@ -9,7 +9,8 @@ export async function fetchFacilities(
   facilityId?: Id
 ): Promise<CubbyFacility[] | CubbyFacility | null> {
   const referer = 'localhost';
-  const bearerToken = STOREFRONT_KEY;
+  // TODO - Replace with STOREFRONT_KEY
+  const bearerToken = 'e629e838-3786-45b0-adcc-3f681ae97366';
 
   try {
     // eslint-disable-next-line compat/compat

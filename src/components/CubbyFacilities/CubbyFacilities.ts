@@ -1,5 +1,5 @@
 import { css, CSSResult, html, LitElement, unsafeCSS } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { property, state } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { connect } from 'pwa-helpers';
 
@@ -10,8 +10,6 @@ import { CubbyFacility } from '@types';
 
 export const ID = 'cubby-facilities';
 
-@customElement('cubby-facilities')
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class CubbyFacilities extends connect(store)(LitElement) {
   connectedCallback() {
     super.connectedCallback();
@@ -123,6 +121,12 @@ class CubbyFacilities extends connect(store)(LitElement) {
         : html`<h1>Cubby Facilities Loading...</h1>`}
     `;
   }
+}
+
+console.log('customElements.get(cubby-facilities)', customElements.get('cubby-facilities'));
+
+if (customElements.get('cubby-facilities') === undefined) {
+  customElements.define('cubby-facilities', CubbyFacilities);
 }
 
 export default CubbyFacilities;

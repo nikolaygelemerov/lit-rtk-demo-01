@@ -1,11 +1,9 @@
 /* eslint-disable max-len */
 import { css, html, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 
 import { CubbyFacility } from '../../types';
 
-// eslint-disable-next-line prettier/prettier
-@customElement('cubby-facility-header')
 class CubbyFacilityHeader extends LitElement {
   @property()
   facility = {} as CubbyFacility;
@@ -40,6 +38,15 @@ class CubbyFacilityHeader extends LitElement {
       </header>
     `;
   }
+}
+
+console.log(
+  'customElements.get(cubby-facility-header)',
+  customElements.get('cubby-facility-header')
+);
+
+if (customElements.get('cubby-facility-header') === undefined) {
+  customElements.define('cubby-facility-header', CubbyFacilityHeader);
 }
 
 export default CubbyFacilityHeader;
