@@ -109,6 +109,7 @@ class CubbyFacilities extends connect(store)(LitElement) {
         ? html` <style>
               ${this.customStyles}
             </style>
+            <h1>${JSON.stringify(this.data || 'No data')}</h1>
             ${repeat(
               this.facilities || [],
               (facility) => facility.facility.id,

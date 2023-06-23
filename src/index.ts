@@ -14,12 +14,13 @@ if (currentScript && currentScript.src.indexOf(url) !== -1) {
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-fetch(`http://localhost:8090/get-config/${apiKey}`)
+// fetch(`http://localhost:8090/get-config/${apiKey}`)
+fetch('https://jsonplaceholder.typicode.com/todos/1')
   .then((response) => response.json())
-  .then((data) => delay(10000).then(() => data)) // Delay for 10 seconds before consuming data
+  // .then((data) => delay(10000).then(() => data)) // Delay for 10 seconds before consuming data
   .then((data) => {
     initializeProxy[cubbyFacilities.ID] = {
-      data: { id: cubbyFacilities.ID, payload: data }
+      data: { id: cubbyFacilities.ID, payload: { date: new Date().toISOString() } }
     };
   })
   .catch((err) => {
